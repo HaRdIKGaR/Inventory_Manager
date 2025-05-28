@@ -1,12 +1,40 @@
-# React + Vite
+# 📦 Inventory Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack Inventory Management application built using **React**, **Node.js**, and **Express** with **JWT authentication**. It allows admins to manage stock by adding items, searching by product details, and viewing recent inventory changes.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🔐 **JWT Authentication** (Login & token-based access)
+- 📦 **Stock Management** (Add & update quantities)
+- 🔎 **Smart Search & Filters**
+  - By **Product Name**, **Category**
+  - Filter by **Last Updated Date Range**
+- 📱 **Mobile Responsive** UI
+- 🔔 **Toast Notifications** for feedback
+- 📊 **Live Inventory Table** with real-time updates
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**
+- React + Vite
+- Tailwind CSS
+- Toastify
+
+**Backend**
+- Node.js
+- Express.js
+- MongoDB (via Mongoose)
+- JWT for authentication
+
+---
+
+## 🧪 Setup Instructions
+
+### 1. Clone the Repository
+```bash
+[git clone https://github.com/your-username/inventory-app.git](https://github.com/HaRdIKGaR/Inventory_Manager.git)
+cd Inventory_Manager
