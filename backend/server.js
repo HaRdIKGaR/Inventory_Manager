@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import stockRoutes from './routes/inventory.js'
+import salesRoutes from './routes/sales.js';
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ connectDB();
 app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/inventory',stockRoutes)
+app.use('/api/sales',salesRoutes)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

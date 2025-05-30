@@ -162,10 +162,10 @@ const Mode = localStorage.getItem("theme")
   <table className="w-full table-auto border-collapse mt-2 sm:mt-6">
     <thead>
       <tr>
-        <th className="border px-1 sm:px-4 py-2 hidden sm:table-cell text-sm sm:text-base">Barcode</th>
-        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base">Product</th>
-        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base">Quantity</th>
-        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base">Last Updated</th>
+        <th className="border px-1 sm:px-4 py-2 hidden sm:table-cell text-sm sm:text-base  bg-gray-600">Barcode</th>
+        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-600">Product</th>
+        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-600">Quantity</th>
+        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-600">Last Updated</th>
       </tr>
     </thead>
     <tbody>

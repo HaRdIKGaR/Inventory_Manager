@@ -26,6 +26,18 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+//GET: Retrieve Product Using Barcode
+router.get('/barcode/:barcode',auth, async (req, res) => {
+  try {
+    const company = req.user.company;
+    const product = await Product.findOne({ barcode: req.params.barcode,company }).lean();
+    if (!product) return res.status(404).json({ error: 'Product not Found' });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 // POST: Add stock
 router.post("/", auth, async (req, res) => {
