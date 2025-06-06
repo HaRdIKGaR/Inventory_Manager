@@ -105,7 +105,7 @@ const SalesEntry = () => {
 const Mode = localStorage.getItem("theme");
   return (
 <>
-<div className={`pt-4 overflow-scroll ${
+<div className={`pt-4  ${
         Mode === 'dark' ? 'bg-gradient-to-r from-slate-950 via-gray-900 to bg-slate-950 text-white' : 'bg-white text-black'
       }`}>
      <ToastContainer position="top-right" autoClose={3000} />

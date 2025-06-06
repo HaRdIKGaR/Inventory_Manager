@@ -13,6 +13,7 @@ router.post("/", auth, async (req, res) => {
   try {
     const existing = await Product.findOne({ barcode, company: req.user.company });
     if (existing) {
+      console.log(existing);
       return res.status(409).json({ message: 'Product with this barcode already exists' });
     }
 

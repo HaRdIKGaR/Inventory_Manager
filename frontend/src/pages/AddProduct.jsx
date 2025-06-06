@@ -44,9 +44,13 @@ const AddProduct = () => {
       alert('Something went wrong!');
     }
   };
-
+const Mode = localStorage.getItem("theme")
   return (
-    <div className="max-w-2xl mx-auto p-6 shadow-xl border rounded-xl mt-4">
+    <div className={`min-h-screen pt-2 ${
+        Mode === 'dark' ? 'bg-gradient-to-r from-slate-950 via-gray-900 to bg-slate-950 text-white' : 'bg-white text-black'
+      }`}>
+
+    <div className="max-w-2xl mx-auto p-6 shadow-2xl  rounded-xl ">
       <h1 className="text-2xl font-bold mb-4">Register New Product</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
         <input
@@ -55,7 +59,7 @@ const AddProduct = () => {
           placeholder="Barcode"
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded hover:scale-105 transition-all duration-200"
           required
         />
         <input
@@ -63,7 +67,7 @@ const AddProduct = () => {
           placeholder="Product Name"
           value={productName}
           onChange={(e) => setProductName(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded hover:scale-105 transition-all duration-200"
           required
         />
         <input
@@ -71,14 +75,14 @@ const AddProduct = () => {
           placeholder="Category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded hover:scale-105 transition-all duration-200"
         />
         <input
           type="number"
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded hover:scale-105 transition-all duration-200"
           required
         />
         
@@ -86,16 +90,17 @@ const AddProduct = () => {
           placeholder="Remarks (optional)"
           value={remarks}
           onChange={(e) => setRemarks(e.target.value)}
-          className="border p-2 rounded"
-        />
+          className="border p-2 rounded hover:scale-105 transition-all duration-200"
+          />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
+          className={` w-1/3 cursor-pointer px-4 py-2 rounded transition-all duration-200 ${Mode==='dark' ? "bg-white text-black hover:bg-blue-600" : "bg-black text-white hover:bg-blue-600"}`}
+          >
           Register Product
         </button>
       </form>
     </div>
+          </div>
   );
 };
 

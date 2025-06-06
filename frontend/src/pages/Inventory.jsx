@@ -100,7 +100,7 @@ const Mode = localStorage.getItem("theme")
     <ToastContainer position="top-right" autoClose={3000} />
 
     <div className="max-w-5xl mx-auto p-6 ">
-      <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4">Inventory</h2>
+      <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 tracking-widest">INVENTORY</h2>
 
       <input
         type="text"
@@ -130,7 +130,7 @@ const Mode = localStorage.getItem("theme")
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
   <input
     type="text"
-    placeholder="Filter by Product Name"
+    placeholder="Search by Product Name"
     value={productNameFilter}
     onChange={(e) => setproductNameFilter(e.target.value)}
     className="border p-2 rounded-lg"
@@ -158,7 +158,7 @@ const Mode = localStorage.getItem("theme")
 </div>
 
 
-      <div className="overflow-x-auto">
+      <div>
   <table className="w-full table-auto border-collapse mt-2 sm:mt-6">
     <thead>
       <tr>

@@ -46,11 +46,11 @@ useEffect(() => {
   return (
     <>
     <div className={`min-h-screen w-full transition-colors duration-300 ${
-        Mode === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'
+        Mode === 'dark' ? 'bg-gradient-to-r from-slate-950 via-gray-900 to bg-slate-950 text-white' : 'bg-white text-black'
       }`}  >
 
       <div
-        className="backdrop-blur-sm bg-gradient-to-r from-slate-800 to-slate-900 text-white  p-1 sm:p-4 gap-3 flex flex-col sm:flex-row items-center sm:justify-between"
+        className="shadow-md shadow-gray-800 backdrop-blur-sm bg-gradient-to-r from-slate-800 to-slate-900 text-white  p-1 sm:p-4 gap-3 flex flex-col sm:flex-row items-center sm:justify-between"
         
       >
         <div className="text-xl font-bold tracking-wide">Inventory Management</div>
@@ -62,13 +62,15 @@ useEffect(() => {
           <Tab value="Action 3" />
           <Tab value="Action 4" />
           <button onClick={toggleTheme} className={`rounded-xl py-1 px-2 cursor-poi ${
-  Mode === "light" ? "bg-white text-black" : "bg-black text-white"
+  Mode === "light" ? "bg-white text-black border border-black" : "bg-black text-white border border-gray-400"
 }`}>{Mode==="light" ? "Dark":"Light"} </button>
           
         </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 w-[80vw] mx-auto mt-[10vh] sm:mt-[15vh] gap-4">
+
+        <Link to = "/Charts">
         <motion.div
           whileTap={{ scale: 0.97 }}
           initial={{ opacity: 0, y: 20 }}
@@ -79,6 +81,7 @@ useEffect(() => {
           <IoPeopleOutline className="w-2/5 h-2/6" />
           <div className="text-lg sm:text-2xl font-bold">Top Products</div>
         </motion.div>
+          </Link>
 
         <Link to="/SalesEntry">
           <motion.div
@@ -86,7 +89,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-gray-400 via-gray-500 to-gray-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-black"
+            className={`h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-gray-400 via-gray-500 to-gray-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md ${Mode==="dark" ? "shadow-slate-500":'shadow-black'} `}
             >
             <FcSalesPerformance className="w-2/5 h-2/6" />
             <div className="text-lg sm:text-2xl font-bold">Sales</div>
@@ -99,7 +102,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-blue-400 via-blue-400 to-blue-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-slate-800"
+            className={`h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-blue-400 via-blue-400 to-blue-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md ${Mode==='dark' ?"shadow-slate-500":"shadow-black"} `}
             >
             <MdOutlineInventory className="w-2/5 h-2/6" />
             <div className="text-lg sm:text-2xl font-bold">Inventory</div>

@@ -4,7 +4,8 @@ import Login from './pages/Login'; // Make sure casing matches filename
 import Admin from './pages/Admin';
 import SalesEntry from './pages/SalesEntry';
 import AddProduct from './pages/AddProduct';
-import Inventory from './pages/Inventory'
+import Inventory from './pages/Inventory';
+import Charts from './pages/Charts';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path = "/SalesEntry" element = {<SalesEntry/>}/>
         <Route path = "/AddProduct" element = {<AddProduct/>}/>
         <Route path = "/Inventory" element = {<Inventory/>}/>
+        <Route path = "/Charts" element = {<Charts/>}/>
       </Routes>
     
   );

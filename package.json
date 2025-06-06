@@ -5,6 +5,7 @@
     "jwt-decode": "^4.0.0",
     "lottie-react": "^2.4.1",
     "react-toastify": "^11.0.5",
-    "react-type-animation": "^3.2.0"
+    "react-type-animation": "^3.2.0",
+    "recharts": "^2.15.3"
   }
 }
