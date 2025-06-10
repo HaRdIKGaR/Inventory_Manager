@@ -63,3 +63,5 @@ frontend/build/
 
 # === Build artifacts for backend ===
 backend/dist/
+# Firebase Admin SDK Key
+**/ServiceAccountKey.json

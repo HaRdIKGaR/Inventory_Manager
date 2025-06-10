@@ -3,6 +3,7 @@ import Sale from '../models/Sales.js';
 import auth from '../middleware/auth.js';
 import Inventory from '../models/Inventory.js';
 import Product from '../models/Product.js';
+import LowStockAlert from '../models/Alert.js';
 
 import mongoose from 'mongoose';
 
@@ -22,11 +23,17 @@ router.post('/', auth, async (req, res) => {
     const saleEntries = [];
     let totalAmount = 0;
 
+    const today = new Date();
+    const d7 = new Date(today); d7.setDate(today.getDate() - 7);
+    const d14 = new Date(today); d14.setDate(today.getDate() - 14);
+    const d30 = new Date(today); d30.setDate(today.getDate() - 30);
+
     for (const entry of entries) {
       const { barcode, quantity, price, product, remarks } = entry;
 
       const inventory = await Inventory.findOne({ barcode, company }).session(session);
-      
+      if (!inventory) throw new Error(`No inventory record for ${barcode}`);
+
       if (inventory.quantity < quantity)
         throw new Error(`Insufficient stock for ${barcode}`);
 
@@ -37,6 +44,56 @@ router.post('/', auth, async (req, res) => {
       totalAmount += total;
 
       saleEntries.push({ barcode, quantity, price, product, remarks });
+
+      // --- Dynamic Threshold Calculation ---
+      const avg7Agg = await Sale.aggregate([
+        { $match: { createdAt: { $gte: d7 }, "entries.barcode": barcode, company } },
+        { $unwind: "$entries" },
+        { $match: { "entries.barcode": barcode } },
+        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+      ]);
+
+      const avg14Agg = await Sale.aggregate([
+        { $match: { createdAt: { $gte: d14, $lt: d7 }, "entries.barcode": barcode, company } },
+        { $unwind: "$entries" },
+        { $match: { "entries.barcode": barcode } },
+        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+      ]);
+
+      const avg30Agg = await Sale.aggregate([
+        { $match: { createdAt: { $gte: d30, $lt: d14 }, "entries.barcode": barcode, company } },
+        { $unwind: "$entries" },
+        { $match: { "entries.barcode": barcode } },
+        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+      ]);
+
+      const avg7 = (avg7Agg[0]?.total || 0) / 7;
+      const avg14 = (avg14Agg[0]?.total || 0) / 7;
+      const avg30 = (avg30Agg[0]?.total || 0) / 15;
+
+      const weightedAvg = avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2;
+      const bufferDays = 5;
+      const threshold = weightedAvg * bufferDays;
+
+      console.log(threshold)
+      console.log(inventory.quantity)
+      // --- Create/Update/Delete Low Stock Alert ---
+      if (inventory.quantity < threshold || inventory.quantity===0) {
+        await LowStockAlert.findOneAndUpdate(
+          { barcode, company },
+          {
+            barcode,
+            company,
+            productName: inventory.productName,
+            currentQuantity: inventory.quantity,
+            dynamicThreshold: threshold.toFixed(2),
+            updatedAt: new Date()
+          },
+          { upsert: true, new: true }
+        );
+      } else {
+        await LowStockAlert.deleteOne({ barcode, company });
+      }
     }
 
     if (Math.abs(totalAmount - clientTotal) > 0.01)
@@ -51,7 +108,9 @@ router.post('/', auth, async (req, res) => {
     await sale.save({ session });
     await session.commitTransaction();
 
-    res.status(201).json({ message: 'Sale recorded and inventory updated' });
+    res.status(201).json({
+      message: 'Sale recorded and inventory updated'
+    });
   } catch (err) {
     await session.abortTransaction();
     console.error('Sale error:', err);
@@ -60,6 +119,7 @@ router.post('/', auth, async (req, res) => {
     session.endSession();
   }
 });
+
 
 router.get('/category/:category', auth, async (req, res) => {
   try {

@@ -6,6 +6,8 @@ import { MdOutlineInventory } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import ParticlesBackground from "./ParticlesBackground.jsx"; // adjust path if needed
+
 
 
 const Admin = () => {
@@ -45,6 +47,7 @@ useEffect(() => {
 
   return (
     <>
+      <ParticlesBackground />
     <div className={`min-h-screen w-full transition-colors duration-300 ${
         Mode === 'dark' ? 'bg-gradient-to-r from-slate-950 via-gray-900 to bg-slate-950 text-white' : 'bg-white text-black'
       }`}  >

@@ -44,7 +44,18 @@ const Register = () => {
         <input className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2' type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
         <input className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2' type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
         <input className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2' type="text" placeholder='Company' value={company} onChange={(e) => setCompany(e.target.value)} />
-        <input className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2' type="text" placeholder='Role' value={role} onChange={(e) => setRole(e.target.value)} />
+      <select
+  className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2'
+  value={role}
+  onChange={(e) => setRole(e.target.value)}
+  required
+>
+  <option value="" disabled>Select Role</option>
+  <option value="admin">Admin</option>
+  <option value="cashier">Cashier</option>
+  <option value="inventory manager">Inventory Manager</option>
+</select>
+
         
 
         <button className='mx-auto w-1/3 hover:bg-green-600 transition-colors duration-140  rounded-xl px-2 py-2 border-[1.5px] border-black'>Register</button>

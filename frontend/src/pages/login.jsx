@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from './firebase';
 
 
 const phrases = [
@@ -48,6 +50,38 @@ const Login = () => {
     }
   };
 
+const handleAuth = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const idToken = await user.getIdToken(); // Get Firebase ID token
+
+    const res = await fetch("/api/google-login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ idToken })
+    });
+
+    const data = await res.json();
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      const decoded = jwtDecode(data.token);
+      navigate(`/${decoded.role}`);
+    } else {
+      alert("Authentication failed");
+    }
+  } catch (err) {
+    console.error("Google login error:", err);
+    alert("Google login failed");
+  }
+};
+
+
+
   return (
     <>
  <div className="h-16 flex items-center justify-center ">
@@ -81,7 +115,7 @@ const Login = () => {
 
         <div className="flex sm:w-1/2 w-9/10 h-7/40 rounded-2xl p-2 border-[1.5px] mx-auto gap-2 items-center hover:bg-slate-700 hover:text-white transition-colors duration-140 md:w-19/20">
           <img src="Google.svg" alt="google" className='h-4/5 w-1/5' />
-          <p>Continue With Google </p>
+          <button type='button' onClick={handleAuth}>Continue With Google </button>
         </div>
         <Link to = "/register" className='text-blue-500'>Don't have an account yet? Register</Link>
       </form>
