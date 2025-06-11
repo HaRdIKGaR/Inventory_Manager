@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@layer utilities {
+  @keyframes background-pan {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-background {
+    animation: background-pan 10s linear infinite;
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg, #3b7ad2ec, #a0ecfff0, #6780e1, #0065ca);
+    background-repeat: no-repeat;
+  }
+
+  .anime{
+animation: background-pan 50s linear-infinite;
+background-size: 100% 100%;
+background-image: linear-gradient(75deg, #061830, #010c0ef0, #03204689, #052445);
+background-repeat: no-repeat;
+
+  }
+}

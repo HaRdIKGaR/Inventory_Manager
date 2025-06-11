@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import stockRoutes from './routes/inventory.js'
 import salesRoutes from './routes/sales.js';
+import exportRoutes from './routes/export.js'
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/inventory',stockRoutes)
 app.use('/api/sales',salesRoutes)
+app.use('/api/export',exportRoutes)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

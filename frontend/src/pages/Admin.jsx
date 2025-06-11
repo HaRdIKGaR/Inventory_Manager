@@ -1,12 +1,13 @@
 /***** components/Admin.tsx *****/
 import React, { useState, useEffect } from 'react';
-import { IoPeopleOutline } from "react-icons/io5";
+import { FaChartLine } from "react-icons/fa6";
 import { FcSalesPerformance } from "react-icons/fc";
 import { MdOutlineInventory } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import ParticlesBackground from "./ParticlesBackground.jsx"; // adjust path if needed
+
+
 
 
 
@@ -32,6 +33,8 @@ useEffect(() => {
   const Tab = ({ value}) => {
     
     return (
+      
+      
       <div
       
        
@@ -41,19 +44,38 @@ useEffect(() => {
       </div>
     );
   };
+  const handleExport = async () => {
+  try {
+    const res = await fetch('/api/export');
+    if (!res.ok) throw new Error("Failed to export");
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'sales.csv');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (err) {
+    alert("Export failed: " + err.message);
+  }
+};
+
 
  
 
 
   return (
     <>
-      <ParticlesBackground />
-    <div className={`min-h-screen w-full transition-colors duration-300 ${
+    
+      
+    <div className={` min-h-screen w-full transition-colors duration-300 ${
         Mode === 'dark' ? 'bg-gradient-to-r from-slate-950 via-gray-900 to bg-slate-950 text-white' : 'bg-white text-black'
       }`}  >
 
       <div
-        className="shadow-md shadow-gray-800 backdrop-blur-sm bg-gradient-to-r from-slate-800 to-slate-900 text-white  p-1 sm:p-4 gap-3 flex flex-col sm:flex-row items-center sm:justify-between"
+        className="relative z-5 anime  shadow-md shadow-gray-800 backdrop-blur-sm text-white mix-blend-exclusion  p-1 sm:p-4 gap-3 flex flex-col sm:flex-row items-center sm:justify-between"
         
       >
         <div className="text-xl font-bold tracking-wide">Inventory Management</div>
@@ -61,7 +83,13 @@ useEffect(() => {
           <Link to="/AddProduct">
             <Tab value="Add Item" />
           </Link>
-          <Tab value="Action 2" />
+          <button
+  onClick={handleExport}
+  className="relative z-10 cursor-pointer p-1.5 text-sm sm:text-md rounded-lg hover:scale-105 transition-all duration-250 font-semibold text-white mix-blend-difference hover:bg-white hover:text-black"
+>
+  Export CSV
+</button>
+
           <Tab value="Action 3" />
           <Tab value="Action 4" />
           <button onClick={toggleTheme} className={`rounded-xl py-1 px-2 cursor-poi ${
@@ -71,7 +99,7 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 w-[80vw] mx-auto mt-[10vh] sm:mt-[15vh] gap-4">
+      <div className=" grid grid-cols-2 sm:grid-cols-4 w-[80vw] mx-auto mt-[10vh] sm:mt-[15vh] gap-4">
 
         <Link to = "/Charts">
         <motion.div
@@ -81,8 +109,8 @@ useEffect(() => {
           transition={{ duration: 0.3 }}
           className="h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-cyan-700 via-teal-500 to-cyan-600 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-blue-900"
         >
-          <IoPeopleOutline className="w-2/5 h-2/6" />
-          <div className="text-lg sm:text-2xl font-bold">Top Products</div>
+          <FaChartLine className="w-2/5 h-2/6" />
+          <div className="text-lg sm:text-2xl font-bold">Analyze</div>
         </motion.div>
           </Link>
 
@@ -123,6 +151,7 @@ useEffect(() => {
           <div className="text-lg sm:text-2xl font-bold">Alerts</div>
         </motion.div>
       </div>
+          
           </div>
     </>
   );

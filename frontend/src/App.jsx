@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Register from './pages/Register';
-import Login from './pages/Login'; // Make sure casing matches filename
+import Login from './pages/login'; // Make sure casing matches filename
 import Admin from './pages/Admin';
 import SalesEntry from './pages/SalesEntry';
 import AddProduct from './pages/AddProduct';

@@ -83,8 +83,14 @@ const handleAuth = async () => {
 
 
   return (
-    <>
- <div className="h-16 flex items-center justify-center ">
+   <>
+  {/* Background layer */}
+  <div className="fixed top-0 left-0 w-full h-full -z-10 animate-background"></div>
+
+  {/* Main content */}
+  <div className="min-h-screen flex flex-col items-center justify-center">
+    {/* Animated phrase */}
+    <div className="h-16 flex items-center justify-center">
       <AnimatePresence mode="wait">
         <motion.span
           key={phrases[index]}
@@ -99,28 +105,47 @@ const handleAuth = async () => {
       </AnimatePresence>
     </div>
 
-    <div className="min-h-screen flex mt-2  justify-center bg-cover bg-center backdrop-blur-lg " style={{
-        backgroundImage: `url('/bg.jpeg')`,}}>
-          
+    {/* Login form */}
+    <form
+      onSubmit={handleLogin}
+      className="border-2 bg-white opacity-90 z-10 border-black rounded-2xl md:w-[30vw] h-[80vh] sm:h-[70vh] w-[80vw] mx-auto p-4 flex flex-col gap-5"
+    >
+      <h1 className="font-bold text-2xl">Sign In to your Account</h1>
 
-      <form onSubmit={handleLogin} className='border-2 bg-white opacity-90   border-black rounded-2xl md:w-[30vw] h-[80vh] sm:h-[70vh] w-[80vw] mx-auto p-4 flex flex-col gap-5   '>
-        <h1 className='font-bold text-2xl'>Sign In to your Account</h1>
+      <input
+        className="border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2"
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className="border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2"
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-        <input className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2' type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input className='border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2' type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+      <button className="mx-auto w-1/3 hover:bg-green-600 transition-colors duration-140 rounded-xl px-2 py-2 border-[1.5px] border-black">
+        Submit
+      </button>
 
-        <button className='mx-auto w-1/3 hover:bg-green-600 transition-colors duration-140  rounded-xl px-2 py-2 border-[1.5px] border-black'>Submit</button>
+      <div className="w-19/20 border-[1px] mx-auto"></div>
 
-        <div className=' w-19/20 border-[1px] mx-auto'></div>
+      <div className="flex sm:w-1/2 w-9/10 h-7/40 rounded-2xl p-2 border-[1.5px] mx-auto gap-2 items-center hover:bg-slate-700 hover:text-white transition-colors duration-140 md:w-19/20">
+        <img src="Google.svg" alt="google" className="h-4/5 w-1/5" />
+        <button type="button" onClick={handleAuth}>
+          Continue With Google
+        </button>
+      </div>
+      <Link to="/register" className="text-blue-500">
+        Don't have an account yet? Register
+      </Link>
+    </form>
+  </div>
+</>
 
-        <div className="flex sm:w-1/2 w-9/10 h-7/40 rounded-2xl p-2 border-[1.5px] mx-auto gap-2 items-center hover:bg-slate-700 hover:text-white transition-colors duration-140 md:w-19/20">
-          <img src="Google.svg" alt="google" className='h-4/5 w-1/5' />
-          <button type='button' onClick={handleAuth}>Continue With Google </button>
-        </div>
-        <Link to = "/register" className='text-blue-500'>Don't have an account yet? Register</Link>
-      </form>
-    </div>
-    </>
   );
 };
 
