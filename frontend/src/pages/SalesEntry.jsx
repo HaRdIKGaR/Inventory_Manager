@@ -175,15 +175,15 @@ const Mode = localStorage.getItem("theme");
 
       {entries.length > 0 && (
         <div className="mt-6 md:mt-0 md:p-4">
-          <h2 className="text-md uppercase text-gray-300 font-bold mb-2">Current Sale</h2>
+          <h2 className="text-md uppercase text-gray-300 mix-blend-difference font-bold mb-2">Current Sale</h2>
           <table className="w-full table-auto border border-collapse overflow-scroll">
             <thead>
               <tr className="">
-                <th className="border px-2 py-1 bg-gray-600">Product</th>
-                <th className="border px-2 py-1 bg-gray-600">Qty</th>
-                <th className="border px-2 py-1 bg-gray-600">Price</th>
-                <th className="border px-2 py-1 bg-gray-600">Total</th>
-                <th className="border px-2 py-1 bg-gray-600">Actions</th>
+                <th className="border px-2 py-1 bg-gray-600 mix-blend-difference">Product</th>
+                <th className="border px-2 py-1 bg-gray-600 mix-blend-difference">Qty</th>
+                <th className="border px-2 py-1 bg-gray-600 mix-blend-difference">Price</th>
+                <th className="border px-2 py-1 bg-gray-600 mix-blend-difference">Total</th> 
+                <th className="border px-2 py-1 bg-gray-600 mix-blend-difference">Actions</th>
               </tr>
             </thead>
             <tbody>

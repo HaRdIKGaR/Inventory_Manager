@@ -215,6 +215,60 @@ router.get('/daily', auth, async (req, res) => {
   }
 });
 
+router.get('/summary', async (req, res) => {
+  try {
+    const now = new Date();
+
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Total sales today
+    const todaySales = await Sale.aggregate([
+      { $match: { date: { $gte: startOfToday } } },
+      { $group: { _id: null, total: { $sum: "$total" } } }
+    ]);
+
+    // Total sales this month
+    const monthSales = await Sale.aggregate([
+      { $match: { date: { $gte: startOfMonth } } },
+      { $group: { _id: null, total: { $sum: "$total" } } }
+    ]);
+
+    res.json({
+      today: todaySales[0]?.total || 0,
+      month: monthSales[0]?.total || 0
+    });
+  } catch (err) {
+    console.error("Sales summary error:", err);
+    res.status(500).json({ error: "Failed to fetch sales summary." });
+  }
+});
+
+router.get('/payment-methods',auth, async (req, res) => {
+   try {
+    const result = await Sale.aggregate([
+      {
+        $group: {
+          _id: "$paymentMethod",
+          revenue: { $sum: "$total" }
+        }
+      },
+      {
+        $project: {
+          method: "$_id",
+          revenue: 1,
+          _id: 0
+        }
+      }
+    ]);
+
+    res.json(result);
+  } catch (err) {
+    console.error("Failed to get payment method data:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 
 export default router;

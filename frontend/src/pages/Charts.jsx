@@ -16,6 +16,8 @@ const Charts = () => {
   const [days, setDays] = useState(7); // For pie chart
   const [lineDays, setLineDays] = useState(7); // For line chart
   const [linemetric, setLinemetric] = useState("quantity");
+  const [paymentData, setPaymentData] = useState([]);
+
 
   const token = localStorage.getItem('token');
 
@@ -75,6 +77,22 @@ const Charts = () => {
     fetchLineData();
   }, [lineDays]);
 
+  useEffect(() => {
+  const fetchPaymentMethods = async () => {
+    try {
+      const res = await fetch('/api/sales/payment-methods', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const result = await res.json();
+      setPaymentData(result);
+    } catch (err) {
+      console.error("Error fetching payment method data:", err);
+    }
+  };
+
+  fetchPaymentMethods();
+}, []);
+
   const Mode = localStorage.getItem("theme");
 
   return (
@@ -82,7 +100,7 @@ const Charts = () => {
       <div className='flex flex-col sm:flex-row gap-8 py-6 px-4'>
 
         {/* Pie Chart Section */}
-        <div className="w-full sm:w-2/5 px-4   text-center">
+        <div className="w-full sm:w-2/5 px-4   text-center flex flex-col gap-5 items-center">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 tracking-wider">Category wise Sales</h2>
 
           <div className="flex flex-wrap gap-4 items-center mb-6 justify-center">
@@ -91,12 +109,12 @@ const Charts = () => {
               value={category}
               onChange={e => setCategory(e.target.value)}
               placeholder="Enter category"
-              className="border border-gray-300 px-3 py-2 rounded w-[60vw] sm:w-[13vw]"
+              className="border border-gray-300 px-3 py-2 rounded w-[60vw] sm:w-[13vw] hover:border-white"
             />
             <select
               value={metric}
               onChange={e => setMetric(e.target.value)}
-              className={`border border-gray-300 px-3 py-2 rounded ${Mode === 'dark' ? 'bg-slate-900 text-white' : ''}`}
+              className={`border border-gray-300 px-3 py-2 hover:border-white rounded ${Mode === 'dark' ? 'bg-slate-900 text-white' : ''}`}
             >
               <option value="quantity">By Quantity</option>
               <option value="revenue">By Revenue</option>
@@ -106,7 +124,7 @@ const Charts = () => {
             <select
               value={days}
               onChange={(e) => setDays(parseInt(e.target.value))}
-              className={`border border-gray-300 px-3 py-2 rounded ${Mode === 'dark' ? 'bg-slate-900 text-white' : ''}`}
+              className={`border border-gray-300 hover:border-white  px-3 py-2 rounded ${Mode === 'dark' ? 'bg-slate-900 text-white' : ''}`}
             >
               <option value={7}>Last 7 Days</option>
               <option value={14}>Last 14 Days</option>
@@ -138,6 +156,10 @@ const Charts = () => {
           ) : (
             <p className="text-gray-500">No data available for this category.</p>
           )}
+
+          {/* Payment Method Donut Chart Section */}
+
+
         </div>
 
         {/* Line Chart Section */}
@@ -147,13 +169,13 @@ const Charts = () => {
           {/* Toggle line metric */}
           <div className="mb-4 flex justify-center gap-4">
             <button
-              className={`shadow-md shadow-yellow-800 px-4 py-2 rounded ${linemetric === "quantity" ? "bg-blue-600 text-white" : "bg-gray-300 text-black"}`}
+              className={`shadow-md shadow-yellow-800 cursor-pointer px-4 py-2 rounded hover:shadow-lg ${linemetric === "quantity" ? "bg-blue-600 text-white" : "bg-gray-300 text-black"}`}
               onClick={() => setLinemetric("quantity")}
             >
               Quantity
             </button>
             <button
-              className={`shadow-md shadow-yellow-800 px-4 py-2 rounded ${linemetric === "revenue" ? "bg-blue-600 text-white" : "bg-gray-300 text-black"} `}
+              className={`shadow-md shadow-yellow-800 px-4 py-2 rounded cursor-pointer hover:shadow-lg ${linemetric === "revenue" ? "bg-blue-600 text-white" : "bg-gray-300 text-black"} `}
               onClick={() => setLinemetric("revenue")}
             >
               Revenue
@@ -165,7 +187,7 @@ const Charts = () => {
             <select
               value={lineDays}
               onChange={(e) => setLineDays(parseInt(e.target.value))}
-              className={`border border-gray-300 px-3 py-2 rounded ${Mode === 'dark' ? 'bg-slate-900 text-white' : ''}`}
+              className={`border border-gray-300 px-3 py-2 rounded hover:border-white ${Mode === 'dark' ? 'bg-slate-900 text-white' : ''}`}
             >
               <option value={7}>Last 7 Days</option>
               <option value={14}>Last 14 Days</option>
@@ -191,6 +213,33 @@ const Charts = () => {
           </ResponsiveContainer>
         </div>
       </div>
+      <div className="w-full sm:w-2/5 px-4 text-center flex items-center">
+  <h2 className="text-lg sm:text-xl font-bold  tracking-widest">Payment Method</h2>
+
+  {paymentData.length > 0 ? (
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          data={paymentData}
+          dataKey="revenue"
+          nameKey="method"
+          innerRadius="40%"  // Donut effect
+          outerRadius="70%"
+          fill="#8884d8"
+          label
+        >
+          {paymentData.map((_, index) => (
+            <Cell key={`cell-p-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    </ResponsiveContainer>
+  ) : (
+    <p className="text-gray-500">No payment data available.</p>
+  )}
+</div>
     </div>
   );
 };

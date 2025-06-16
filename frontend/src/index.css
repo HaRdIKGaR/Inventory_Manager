@@ -24,4 +24,14 @@ background-image: linear-gradient(75deg, #061830, #010c0ef0, #03204689, #052445)
 background-repeat: no-repeat;
 
   }
+
+   .alert{
+animation: background-pan 20s linear-infinite;
+background-size: 100% 100%;
+background-image: linear-gradient(45deg, #4a4646dd, #292925c2, #413939be, #423e3e);
+background-repeat: no-repeat;
+
+  }
 }
+
+

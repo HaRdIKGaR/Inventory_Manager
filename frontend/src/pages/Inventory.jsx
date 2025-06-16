@@ -121,7 +121,7 @@ const Mode = localStorage.getItem("theme")
           required
           />
           
-        <button className={` ${Mode==="dark" ?"text-white border-[1px] hover:bg-white hover:text-black":"text-black border-[2px] hover:bg-black hover:text-white"} mix-blend-difference transition-all duration-200   rounded-xl px-4 py-2   flex flex-row gap-1 items-center`}>
+        <button className={` ${Mode==="dark" ?"text-white border-[1px] hover:bg-white hover:text-black":"text-black border-[2px] hover:bg-black hover:text-white"}  transition-all duration-200   rounded-xl px-4 py-2   flex flex-row gap-1 items-center`}>
           <PlusIcon className="h-5 w-5" />
           Add Stock
         </button>
@@ -162,10 +162,10 @@ const Mode = localStorage.getItem("theme")
   <table className="w-full table-auto border-collapse mt-2 sm:mt-6">
     <thead>
       <tr>
-        <th className="border px-1 sm:px-4 py-2 hidden sm:table-cell text-sm sm:text-base  bg-gray-600">Barcode</th>
-        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-600">Product</th>
-        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-600">Quantity</th>
-        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-600">Last Updated</th>
+        <th className="border px-1 sm:px-4 py-2 hidden sm:table-cell text-sm sm:text-base  bg-gray-500 text-white mix-blend-exclusion">Barcode</th>
+        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-500 text-white mix-blend-exclusion">Product</th>
+        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-500 text-white mix-blend-exclusion">Quantity</th>
+        <th className="border px-1 sm:px-4 py-2 text-sm sm:text-base bg-gray-500 text-white mix-blend-exclusion">Last Updated</th>
       </tr>
     </thead>
     <tbody>

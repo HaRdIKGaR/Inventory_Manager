@@ -6,6 +6,7 @@ import SalesEntry from './pages/SalesEntry';
 import AddProduct from './pages/AddProduct';
 import Inventory from './pages/Inventory';
 import Charts from './pages/Charts';
+import Alerts from './pages/Alerts'
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path = "/AddProduct" element = {<AddProduct/>}/>
         <Route path = "/Inventory" element = {<Inventory/>}/>
         <Route path = "/Charts" element = {<Charts/>}/>
+        <Route path = "/Alerts" element = {<Alerts/>}/>
       </Routes>
     
   );
