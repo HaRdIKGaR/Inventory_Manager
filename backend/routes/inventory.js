@@ -5,6 +5,7 @@ import Inventory from '../models/Inventory.js';
 import LowStockAlert from '../models/Alert.js';
 import Sale from '../models/Sales.js'; 
 import auth from '../middleware/auth.js'; 
+import Log from '../models/Log.js'
 
 // GET: Fetch all inventory
 router.get("/", auth, async (req, res) => {
@@ -67,9 +68,21 @@ router.post("/", auth, async (req, res) => {
       inventory.quantity += parseInt(quantity);
       inventory.updatedAt = new Date();
       await inventory.save();
+      await Log.create({
+  user: req.user.name,
+  action: `${name} restocked`,
+  details: `${quantity} added`,
+  company: req.user.company
+});
     } else {
       inventory = new Inventory({ barcode, quantity, company, productName: name, category });
       await inventory.save();
+      await Log.create({
+  user: req.user.name,
+  action: `${name} stock added`,
+  details: `${quantity}  added`,
+  company: req.user.company
+});
     }
 
     // === Dynamic Threshold Logic ===

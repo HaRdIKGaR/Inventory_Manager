@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import Product from '../models/Product.js';
 import auth from '../middleware/auth.js'; 
+import Log from '../models/Log.js'
 
 router.post("/", auth, async (req, res) => {
   const { productName, barcode, category, price, remarks } = req.body;
@@ -22,11 +23,17 @@ router.post("/", auth, async (req, res) => {
       barcode,
       category,
       price,
-      company: req.user.company, // ✅ now this will be set correctly
+      company: req.user.company,
       remarks,
     });
 
     await product.save();
+    await Log.create({
+  user: req.user.name,
+  action: `${productName} registered`,
+  details: `Sold ${entries.length} product(s) worth ₹${totalAmount.toFixed(2)}`,
+  company: req.user.company
+});
     res.status(201).json({ message: 'Product registered successfully' });
   } catch (err) {
     console.error(err);

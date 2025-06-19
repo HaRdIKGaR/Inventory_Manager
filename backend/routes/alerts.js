@@ -1,6 +1,7 @@
 import express from 'express';
 import LowStockAlert from '../models/Alert.js';
 import Product from '../models/Product.js';
+import Log from '../models/Log.js'
 
 const router = express.Router();
 

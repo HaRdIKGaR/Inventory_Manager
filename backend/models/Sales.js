@@ -9,6 +9,7 @@ const saleEntrySchema = new mongoose.Schema({
 });
 
 const saleSchema = new mongoose.Schema({
+  company: { type: String, required: true }, // <-- Add this line
   entries: {
     type: [saleEntrySchema],
     required: true,
@@ -18,5 +19,6 @@ const saleSchema = new mongoose.Schema({
   total: { type: Number, required: true },
   date: { type: Date, default: Date.now }
 });
+
 
 export default mongoose.model('Sale', saleSchema);

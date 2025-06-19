@@ -4,6 +4,7 @@ import auth from '../middleware/auth.js';
 import Inventory from '../models/Inventory.js';
 import Product from '../models/Product.js';
 import LowStockAlert from '../models/Alert.js';
+import Log from '../models/Log.js'
 
 import mongoose from 'mongoose';
 
@@ -75,37 +76,52 @@ router.post('/', auth, async (req, res) => {
       const bufferDays = 5;
       const threshold = weightedAvg * bufferDays;
 
-      console.log(threshold)
-      console.log(inventory.quantity)
+      
       // --- Create/Update/Delete Low Stock Alert ---
-      if (inventory.quantity < threshold || inventory.quantity===0) {
-        await LowStockAlert.findOneAndUpdate(
-          { barcode, company },
-          {
-            barcode,
-            company,
-            productName: inventory.productName,
-            currentQuantity: inventory.quantity,
-            dynamicThreshold: threshold.toFixed(2),
-            updatedAt: new Date()
-          },
-          { upsert: true, new: true }
-        );
-      } else {
-        await LowStockAlert.deleteOne({ barcode, company });
-      }
+      if (inventory.quantity < threshold || inventory.quantity === 0) {
+  await LowStockAlert.findOneAndUpdate(
+    { barcode, company },
+    {
+      barcode,
+      company,
+      productName: inventory.productName,
+      currentQuantity: inventory.quantity,
+      dynamicThreshold: threshold.toFixed(2),
+      updatedAt: new Date()
+    },
+    { upsert: true, new: true }
+  );
+
+  // Log the low stock event
+  await Log.create({
+    user: req.user.name,
+    action: 'Low Stock Alert',
+    details: `Product '${inventory.productName}' fell below threshold (${inventory.quantity}/${threshold.toFixed(2)}).`,
+    company: req.user.company
+  });
+
+} else {
+  await LowStockAlert.deleteOne({ barcode, company });
+}
     }
 
     if (Math.abs(totalAmount - clientTotal) > 0.01)
       throw new Error('Total mismatch between client and server.');
 
     const sale = new Sale({
-      entries: saleEntries,
-      paymentMethod,
-      total: totalAmount,
-    });
+  company, // <-- include company here
+  entries: saleEntries,
+  paymentMethod,
+  total: totalAmount,
+});
 
     await sale.save({ session });
+    await Log.create({
+  user: req.user.name,
+  action: 'Sale Recorded',
+  details: `Sold ${entries.length} product(s) worth ₹${totalAmount.toFixed(2)}`,
+  company: req.user.company
+});
     await session.commitTransaction();
 
     res.status(201).json({
@@ -215,22 +231,23 @@ router.get('/daily', auth, async (req, res) => {
   }
 });
 
-router.get('/summary', async (req, res) => {
+router.get('/summary', auth, async (req, res) => {
   try {
+    const company = req.user.company;
     const now = new Date();
 
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    // Total sales today
+    // Total sales today for the company
     const todaySales = await Sale.aggregate([
-      { $match: { date: { $gte: startOfToday } } },
+      { $match: { date: { $gte: startOfToday }, company } },
       { $group: { _id: null, total: { $sum: "$total" } } }
     ]);
 
-    // Total sales this month
+    // Total sales this month for the company
     const monthSales = await Sale.aggregate([
-      { $match: { date: { $gte: startOfMonth } } },
+      { $match: { date: { $gte: startOfMonth }, company } },
       { $group: { _id: null, total: { $sum: "$total" } } }
     ]);
 
@@ -243,6 +260,7 @@ router.get('/summary', async (req, res) => {
     res.status(500).json({ error: "Failed to fetch sales summary." });
   }
 });
+
 
 router.get('/payment-methods',auth, async (req, res) => {
    try {

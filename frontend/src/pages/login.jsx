@@ -7,10 +7,12 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from './firebase';
 
 
+
+
 const phrases = [
   'Manage Your Inventory',
   'Track Your Sales',
-  'Get Stock Recommendations',
+  'Get Stock Alerts',
 ];
 
 const Login = () => {
@@ -39,10 +41,16 @@ const Login = () => {
       const data = await res.json();
 
       if (data.token) {
-        localStorage.setItem("token", data.token);
-        const decoded = jwtDecode(data.token);
-        navigate(`/${decoded.role}`);
-      } else {
+  localStorage.setItem("token", data.token);
+  const decoded = jwtDecode(data.token);
+
+  
+
+  if (decoded.role === 'admin') navigate('/admin');
+  else if (decoded.role === 'cashier') navigate('/sales');
+  else if (decoded.role === 'inventory manager') navigate('/inventory');
+  else navigate('/');
+}else {
         alert("Invalid credentials");
       }
     } catch (err) {
@@ -67,11 +75,18 @@ const handleAuth = async () => {
 
     const data = await res.json();
 
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      const decoded = jwtDecode(data.token);
-      navigate(`/${decoded.role}`);
-    } else {
+   if (data.token) {
+  localStorage.setItem("token", data.token);
+  const decoded = jwtDecode(data.token);
+  console.log(decoded)
+
+  
+
+  if (decoded.role === 'admin') navigate('/Admin');
+  else if (decoded.role === 'cashier') navigate('/SalesEntry');
+  else if (decoded.role === 'inventory manager') navigate('/Inventory');
+  else navigate('/');
+} else {
       alert("Authentication failed");
     }
   } catch (err) {
