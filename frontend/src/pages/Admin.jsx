@@ -17,7 +17,7 @@ const [showLogs, setShowLogs] = useState(false);
 
 
   useEffect(() => {
-    fetch('/api/alerts')
+    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`)
       .then((res) => res.json())
       .then((data) => {
         let count = 0;
@@ -36,7 +36,7 @@ const [showLogs, setShowLogs] = useState(false);
 
 useEffect(() => {
   if (showLogs) {
-    fetch('/api/logs', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/logs`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -51,7 +51,7 @@ useEffect(() => {
   useEffect(() => {
   const token = localStorage.getItem("token");
 
-  fetch('/api/sales/summary', {
+  fetch(`${import.meta.env.VITE_API_URL}/api/sales/summary`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

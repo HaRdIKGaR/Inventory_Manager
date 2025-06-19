@@ -75,7 +75,7 @@ const AlertsPage = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('/api/alerts')
+    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`)
       .then((res) => res.json())
       .then((response) => {
         const arr = Object.entries(response).map(([category, items]) => ({

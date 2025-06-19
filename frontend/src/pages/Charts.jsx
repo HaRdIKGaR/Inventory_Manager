@@ -39,7 +39,7 @@ const Charts = () => {
     const fetchChartData = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/sales/category/${debouncedCategory}?days=${days}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sales/category/${debouncedCategory}?days=${days}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error(`Server error: ${res.statusText}`);
@@ -64,7 +64,7 @@ const Charts = () => {
   useEffect(() => {
     const fetchLineData = async () => {
       try {
-        const res = await fetch(`/api/sales/daily?days=${lineDays}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sales/daily?days=${lineDays}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const result = await res.json();
@@ -80,7 +80,7 @@ const Charts = () => {
   useEffect(() => {
   const fetchPaymentMethods = async () => {
     try {
-      const res = await fetch('/api/sales/payment-methods', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sales/payment-methods`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const result = await res.json();

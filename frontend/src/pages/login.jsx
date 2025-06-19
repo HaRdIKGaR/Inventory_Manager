@@ -32,7 +32,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -65,7 +65,7 @@ const handleAuth = async () => {
 
     const idToken = await user.getIdToken(); // Get Firebase ID token
 
-    const res = await fetch("/api/google-login", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/google-login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -19,7 +19,7 @@ const SalesEntry = () => {
       if (!barcode) return;
 
       try {
-        const res = await fetch(`/api/inventory/barcode/${barcode}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/inventory/barcode/${barcode}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
@@ -75,7 +75,7 @@ const SalesEntry = () => {
   const grandTotal = entries.reduce((acc, curr) => acc + curr.total, 0);
 
   try {
-    const res = await fetch("/api/sales", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sales`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,7 @@ const InventoryPage = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch('/api/inventory', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/inventory`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ const InventoryPage = () => {
   const handleAddStock = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/inventory', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/inventory`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ barcode, quantity })

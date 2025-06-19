@@ -20,7 +20,7 @@ const AddProduct = () => {
     const newProduct = { productName, barcode, category, price, remarks };
 
     try {
-     const response = await fetch("/api/products", {
+     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json','Authorization': `Bearer ${token}` },
