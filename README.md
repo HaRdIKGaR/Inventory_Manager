@@ -52,3 +52,18 @@ Built with **React**, **Express**, **MongoDB**, **Firebase Auth**, and **Rechart
 - /backend/models → Mongoose schemas
 - /backend/routes → Express API routes
 
+## 🔒 Environment Variables
+
+Create a `.env` file in `/backend` with:
+- MONGO_URI=mongodb://localhost:27017/your_db
+- JWT_SECRET=your_jwt_secret
+- FIREBASE_SERVICE_ACCOUNT=path/to/serviceAccount.json
+
+
+---
+
+## ⬇️ Installation
+
+Clone the repo:
+
+git clone 
