@@ -47,4 +47,8 @@ Built with **React**, **Express**, **MongoDB**, **Firebase Auth**, and **Rechart
 ---
 
 ## 📂 Project Structure
+-/frontend → React frontend
+-/backend → Express backend
+-/backend/models → Mongoose schemas
+-/backend/routes → Express API routes
 
