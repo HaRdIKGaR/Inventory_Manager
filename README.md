@@ -66,4 +66,71 @@ Create a `.env` file in `/backend` with:
 
 Clone the repo:
 
-git clone 
+git clone https://github.com/HaRdIKGaR/Inventory_Manager.git
+
+### Backend
+- cd server
+- npm install
+- node server.js
+
+### Frontend
+- cd frontend
+- npm install
+- npm run dev
+
+
+---
+
+## 🔑 User Roles
+
+- **admin** → Admin dashboard
+- **cashier** → Sales dashboard
+- **inventoryManager** → Inventory dashboard
+
+Upon login, users are redirected automatically to the route matching their role.
+
+---
+
+## 📊 Charts
+
+### Category-wise Sales
+
+Shows product-wise breakdown of sales for a selected category:
+
+- Quantity sold
+- Revenue generated
+
+### Daily Sales Trend
+
+Displays daily sales:
+
+- Quantity trend
+- Revenue trend
+
+### Payment Methods Share
+
+Displays share of sales revenue among payment methods in a donut chart.
+
+---
+
+## 📦 API Endpoints
+
+- **POST /api/login** → User login
+- **POST /api/register** → User registration
+- **POST /api/google-login** → Google auth login
+- **GET /api/sales/category/:category** → Category-wise sales data
+- **GET /api/sales/daily** → Daily sales data
+- **GET /api/sales/payment-methods** → Payment methods share
+
+---
+
+
+
+
+## 🙌 Contributing
+
+PRs welcome! Please open an issue for discussion before significant changes.
+
+---
+
+
