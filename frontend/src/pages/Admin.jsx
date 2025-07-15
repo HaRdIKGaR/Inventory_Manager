@@ -77,7 +77,7 @@ useEffect(() => {
 
   const handleExport = async () => {
     try {
-      const res = await fetch('/api/export');
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/export`);
       if (!res.ok) throw new Error("Failed to export");
 
       const blob = await res.blob();
