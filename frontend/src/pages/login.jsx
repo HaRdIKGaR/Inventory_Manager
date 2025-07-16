@@ -128,14 +128,14 @@ const handleAuth = async () => {
       <h1 className="font-bold text-2xl">Sign In to your Account</h1>
 
       <input
-        className="border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2"
+        className="border-[1.5px] border-black rounded-2xl w-9/10 h-1/20 sm:h-3/20 mx-auto px-2"
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        className="border-[1.5px] border-black rounded-2xl w-9/10 h-3/20 mx-auto px-2"
+        className="border-[1.5px] border-black rounded-2xl w-9/10 h-1/20 sm:h-3/20 mx-auto px-2"
         type="password"
         placeholder="Password"
         value={password}
@@ -149,7 +149,7 @@ const handleAuth = async () => {
       <div className="w-19/20 border-[1px] mx-auto"></div>
 
       <div className="flex sm:w-1/2 w-9/10 h-7/40 rounded-2xl p-2 border-[1.5px] mx-auto gap-2 items-center hover:bg-slate-700 hover:text-white transition-colors duration-140 md:w-19/20">
-        <img src="Google.svg" alt="google" className="h-4/5 w-1/5" />
+        <img src="Google.svg" alt="google" className="h-2/5 sm:h-3/5 w-1/5" />
         <button type="button" onClick={handleAuth}>
           Continue With Google
         </button>
