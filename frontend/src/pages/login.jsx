@@ -123,7 +123,7 @@ const handleAuth = async () => {
     {/* Login form */}
     <form
       onSubmit={handleLogin}
-      className="border-2 bg-white opacity-90 z-10 border-black rounded-2xl md:w-[30vw] h-[80vh] sm:h-[70vh] w-[80vw] mx-auto p-4 flex flex-col gap-5"
+      className="border-2 bg-white opacity-90 z-10 border-black rounded-2xl md:w-[30vw] h-[70vh] w-[80vw] mx-auto p-4 flex flex-col gap-5"
     >
       <h1 className="font-bold text-2xl">Sign In to your Account</h1>
 

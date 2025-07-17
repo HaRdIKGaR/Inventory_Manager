@@ -133,7 +133,7 @@ useEffect(() => {
         <div className="grid grid-cols-1 sm:grid-cols-4 w-[80vw] mx-auto mt-[10vh] sm:mt-[15vh] gap-4">
           {/* Analyze */}
           <Link to="/Charts">
-            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-cyan-700 via-teal-500 to-cyan-600 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-blue-900">
+            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="h-[20vh] sm:h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-cyan-700 via-teal-500 to-cyan-600 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-blue-900">
               <FaChartLine className="w-2/5 h-2/6" />
               <div className="text-lg sm:text-2xl font-bold">Analyze</div>
             </motion.div>
@@ -142,7 +142,7 @@ useEffect(() => {
 
           {/* Sales */}
           <Link to="/SalesEntry">
-            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className={`h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-gray-400 via-gray-500 to-gray-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md ${Mode === "dark" ? "shadow-slate-500" : "shadow-black"}`}>
+            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className={`h-[20vh] sm:h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-gray-400 via-gray-500 to-gray-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md ${Mode === "dark" ? "shadow-slate-500" : "shadow-black"}`}>
               <FcSalesPerformance className="w-2/5 h-2/6" />
               <div className="text-lg sm:text-2xl font-bold">Sales</div>
             </motion.div>
@@ -151,7 +151,7 @@ useEffect(() => {
 
           {/* Inventory */}
           <Link to="/Inventory">
-            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className={`h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-blue-400 via-blue-400 to-blue-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md ${Mode === 'dark' ? "shadow-slate-500" : "shadow-black"}`}>
+            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className={`h-[20vh] sm:h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-blue-400 via-blue-400 to-blue-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md ${Mode === 'dark' ? "shadow-slate-500" : "shadow-black"}`}>
               <MdOutlineInventory className="w-2/5 h-2/6" />
               <div className="text-lg sm:text-2xl font-bold">Inventory</div>
             </motion.div>
@@ -159,7 +159,7 @@ useEffect(() => {
 
           {/* Alerts */}
           <Link to="/Alerts">
-            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-zinc-400 via-stone-600 to-zinc-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-cyan-950">
+            <motion.div whileTap={{ scale: 0.97 }} initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="h-[20vh] sm:h-[30vh] hover:h-[40vh] transition-all duration-180 bg-gradient-to-r from-zinc-400 via-stone-600 to-zinc-700 rounded-xl flex flex-col gap-3 text-white pt-2 items-center shadow-md shadow-cyan-950">
               <IoMdNotificationsOutline className="w-2/5 h-2/6" />
               <div className="text-lg sm:text-2xl font-bold">Alerts</div>
             </motion.div>
