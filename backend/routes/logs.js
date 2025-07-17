@@ -10,7 +10,7 @@ router.get('/', auth, async (req, res) => {
     const company = req.user.company;
 
     const logs = await Log.find({ company })
-      .sort({ timestamp: -1 })  // Most recent first
+      .sort({ createdAt: -1 })  // Most recent first
       .limit(15)                
       .select('-__v');          // Exclude __v field
 
