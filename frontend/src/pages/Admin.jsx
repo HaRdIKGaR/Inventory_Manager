@@ -182,7 +182,7 @@ useEffect(() => {
                   <div className="font-semibold">{log.action}</div>
                   <div className="text-gray-600 dark:text-gray-400 text-xs">{log.details}</div>
                   <div className="text-right text-xs text-gray-500">
-                    {new Date(log.createdAt).toLocaleString()}
+                    {new Date(log.timestamp).toLocaleString()}
                   </div>
                 </li>
               ))

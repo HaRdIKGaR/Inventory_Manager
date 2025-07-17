@@ -1,13 +1,15 @@
-// firebaseAdmin.js
-import admin from "firebase-admin";
-import { readFileSync } from "fs";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+import admin from 'firebase-admin';
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
+const rawServiceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+
+// Fix private_key line breaks for Firebase
+rawServiceAccount.private_key = rawServiceAccount.private_key.replace(/\\n/g, '\n');
+
+admin.initializeApp({
+  credential: admin.credential.cert(rawServiceAccount),
+});
 
 export default admin;
