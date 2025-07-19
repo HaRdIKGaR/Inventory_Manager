@@ -96,7 +96,7 @@ const avg30 = salesAggregation[0].avg30[0]?.totalQty || 0;
 
 
 
-      const weightedAvg = (avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2)/3;
+      const weightedAvg = (avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2);
       const bufferDays = 5;
       const threshold = weightedAvg * bufferDays;
 
