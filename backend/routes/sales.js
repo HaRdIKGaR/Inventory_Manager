@@ -47,56 +47,32 @@ router.post('/', auth, async (req, res) => {
       saleEntries.push({ barcode, quantity, price, product, remarks });
 
       // --- Dynamic Threshold Calculation ---
-     const salesAggregation = await Sale.aggregate([
-  {
-    $match: {
-      "entries.barcode": barcode,
-      company,
-      date: { $gte: thirtyDaysAgo }  // Get all in one go
-    }
-  },
-  { $unwind: "$entries" },
-  { $match: { "entries.barcode": barcode } },
-  {
-    $facet: {
-      avg7: [
-        { $match: { date: { $gte: sevenDaysAgo } } },
-        {
-          $group: {
-            _id: null,
-            totalQty: { $sum: "$entries.quantity" }
-          }
-        }
-      ],
-      avg14: [
-        { $match: { date: { $gte: fourteenDaysAgo } } },
-        {
-          $group: {
-            _id: null,
-            totalQty: { $sum: "$entries.quantity" }
-          }
-        }
-      ],
-      avg30: [
-        {
-          $group: {
-            _id: null,
-            totalQty: { $sum: "$entries.quantity" }
-          }
-        }
-      ]
-    }
-  }
-]);
+    const avg7Agg = await Sale.aggregate([
+        { $match: { createdAt: { $gte: d7 }, "entries.barcode": barcode, company } },
+        { $unwind: "$entries" },
+        { $match: { "entries.barcode": barcode } },
+        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+      ]);
 
+      const avg14Agg = await Sale.aggregate([
+        { $match: { createdAt: { $gte: d14, $lt: d7 }, "entries.barcode": barcode, company } },
+        { $unwind: "$entries" },
+        { $match: { "entries.barcode": barcode } },
+        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+      ]);
 
-     const avg7 = salesAggregation[0].avg7[0]?.totalQty || 0;
-const avg14 = salesAggregation[0].avg14[0]?.totalQty || 0;
-const avg30 = salesAggregation[0].avg30[0]?.totalQty || 0;
+      const avg30Agg = await Sale.aggregate([
+        { $match: { createdAt: { $gte: d30, $lt: d14 }, "entries.barcode": barcode, company } },
+        { $unwind: "$entries" },
+        { $match: { "entries.barcode": barcode } },
+        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+      ]);
 
+      const avg7 = (avg7Agg[0]?.total || 0) / 7;
+      const avg14 = (avg14Agg[0]?.total || 0) / 7;
+      const avg30 = (avg30Agg[0]?.total || 0) / 15;
 
-
-      const weightedAvg = (avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2);
+      const weightedAvg = avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2;
       const bufferDays = 5;
       const threshold = weightedAvg * bufferDays;
 
