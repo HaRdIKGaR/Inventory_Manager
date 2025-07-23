@@ -48,21 +48,21 @@ router.post('/', auth, async (req, res) => {
 
       // --- Dynamic Threshold Calculation ---
     const avg7Agg = await Sale.aggregate([
-        { $match: { createdAt: { $gte: d7 }, "entries.barcode": barcode, company } },
+        { $match: { createdAt: { $gte: d7 }, company } },
         { $unwind: "$entries" },
         { $match: { "entries.barcode": barcode } },
         { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
       ]);
 
       const avg14Agg = await Sale.aggregate([
-        { $match: { createdAt: { $gte: d14, $lt: d7 }, "entries.barcode": barcode, company } },
+        { $match: { createdAt: { $gte: d14, $lt: d7 }, company } },
         { $unwind: "$entries" },
         { $match: { "entries.barcode": barcode } },
         { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
       ]);
 
       const avg30Agg = await Sale.aggregate([
-        { $match: { createdAt: { $gte: d30, $lt: d14 }, "entries.barcode": barcode, company } },
+        { $match: { createdAt: { $gte: d30, $lt: d14 }, company } },
         { $unwind: "$entries" },
         { $match: { "entries.barcode": barcode } },
         { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
@@ -71,6 +71,8 @@ router.post('/', auth, async (req, res) => {
       const avg7 = (avg7Agg[0]?.total || 0) / 7;
       const avg14 = (avg14Agg[0]?.total || 0) / 7;
       const avg30 = (avg30Agg[0]?.total || 0) / 15;
+
+      console.log(`${avg7},${avg14},${avg30}`);
 
       const weightedAvg = avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2;
       const bufferDays = 5;
