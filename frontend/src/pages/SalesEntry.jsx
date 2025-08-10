@@ -72,6 +72,7 @@ const SalesEntry = () => {
   };
 
   const handleSubmit = async () => {
+    
   const grandTotal = entries.reduce((acc, curr) => acc + curr.total, 0);
 
   try {

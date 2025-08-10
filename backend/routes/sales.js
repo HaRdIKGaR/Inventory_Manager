@@ -13,6 +13,8 @@ const router = express.Router();
 router.post('/', auth, async (req, res) => {
   const { entries, paymentMethod, total: clientTotal } = req.body;
 
+  
+
   if (!Array.isArray(entries) || entries.length === 0 || !paymentMethod)
     return res.status(400).json({ error: 'Incomplete sales data' });
 
@@ -23,6 +25,7 @@ router.post('/', auth, async (req, res) => {
     const company = req.user.company;
     const saleEntries = [];
     let totalAmount = 0;
+    
 
     const today = new Date();
     const d7 = new Date(today); d7.setDate(today.getDate() - 7);
@@ -44,39 +47,46 @@ router.post('/', auth, async (req, res) => {
       const total = quantity * price;
       totalAmount += total;
 
+      
+
       saleEntries.push({ barcode, quantity, price, product, remarks });
+
+      
 
       // --- Dynamic Threshold Calculation ---
     const avg7Agg = await Sale.aggregate([
-        { $match: { createdAt: { $gte: d7 }, company } },
-        { $unwind: "$entries" },
-        { $match: { "entries.barcode": barcode } },
-        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
-      ]);
+  { $match: { date: { $gte: d7 }, company } },
+  { $unwind: "$entries" },
+  { $match: { "entries.barcode": barcode } },
+  { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+]);
+
 
       const avg14Agg = await Sale.aggregate([
-        { $match: { createdAt: { $gte: d14, $lt: d7 }, company } },
-        { $unwind: "$entries" },
-        { $match: { "entries.barcode": barcode } },
-        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
-      ]);
+  { $match: { date: { $gte: d14, $lt: d7 }, company } },
+  { $unwind: "$entries" },
+  { $match: { "entries.barcode": barcode } },
+  { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+]);
 
-      const avg30Agg = await Sale.aggregate([
-        { $match: { createdAt: { $gte: d30, $lt: d14 }, company } },
-        { $unwind: "$entries" },
-        { $match: { "entries.barcode": barcode } },
-        { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
-      ]);
+const avg30Agg = await Sale.aggregate([
+  { $match: { date: { $gte: d30, $lt: d14 }, company } },
+  { $unwind: "$entries" },
+  { $match: { "entries.barcode": barcode } },
+  { $group: { _id: null, total: { $sum: "$entries.quantity" } } }
+]);
 
+      
       const avg7 = (avg7Agg[0]?.total || 0) / 7;
       const avg14 = (avg14Agg[0]?.total || 0) / 7;
       const avg30 = (avg30Agg[0]?.total || 0) / 15;
 
-      console.log(`${avg7},${avg14},${avg30}`);
+      
 
       const weightedAvg = avg7 * 0.5 + avg14 * 0.3 + avg30 * 0.2;
-      const bufferDays = 5;
+      const bufferDays = 7;
       const threshold = weightedAvg * bufferDays;
+      
 
       
       // --- Create/Update/Delete Low Stock Alert ---
@@ -98,7 +108,7 @@ router.post('/', auth, async (req, res) => {
   await Log.create({
     user: req.user.name,
     action: 'Low Stock Alert',
-    details: `Product '${inventory.productName}' fell below threshold (${inventory.quantity}/${threshold.toFixed(2)}).`,
+    details: `Product '${inventory.productName}' fell below threshold (${threshold.toFixed(2)}).`,
     company: req.user.company
   });
 

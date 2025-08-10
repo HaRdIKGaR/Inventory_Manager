@@ -6,6 +6,7 @@ import Log from '../models/Log.js'
 
 router.post("/", auth, async (req, res) => {
   const { productName, barcode, category, price, remarks } = req.body;
+  
 
   if (!barcode || !productName || !price) {
     return res.status(400).json({ message: 'Missing required fields' });
@@ -28,10 +29,11 @@ router.post("/", auth, async (req, res) => {
     });
 
     await product.save();
+    
     await Log.create({
   user: req.user.name,
   action: `${productName} registered`,
-  details: `Sold ${entries.length} product(s) worth ₹${totalAmount.toFixed(2)}`,
+  details: `Registered  ${productName}}`,
   company: req.user.company
 });
     res.status(201).json({ message: 'Product registered successfully' });
